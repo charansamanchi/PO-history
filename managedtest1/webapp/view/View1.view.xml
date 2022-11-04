@@ -1,0 +1,172 @@
+<mvc:View xmlns:core="sap.ui.core" controllerName="managedtest1.controller.View1"
+		xmlns:mvc="sap.ui.core.mvc"
+		xmlns:table="sap.ui.table"
+		xmlns="sap.m"
+		xmlns:f="sap.f"
+		xmlns:layout="sap.ui.layout"
+		xmlns:tnt="sap.tnt"
+		height="100%">
+	<tnt:ToolHeader>
+		<Image src="./images/sap.svg" mode="InlineSvg" />
+		<ToolbarSpacer />
+		<Title
+			level="Auto"
+			text="Purchase Order History"
+			textAlign="Center"
+			titleStyle="H2"
+			width=""
+			wrapping="true"
+			wrappingType="Normal">	        	
+		</Title>
+		<ToolbarSpacer />
+		<Button click=".handleOpen" text="PO Reference" icon="sap-icon://search" id="openPopoverButton" />
+		<Popover id="popover" visible="false">
+				<Label text="PO" required= 'true' showColon= 'true' />
+				<Input placeholder="Enter Purchase Order" />
+				<footer>
+		 			<Button design="Emphasized" text="OK" click=".handleClose"
+						class="sapUiTinyMarginTop sapUiTinyMarginBottom" />
+				</footer>
+		</Popover>	
+		<Button icon="sap-icon://bell" type="Transparent" />
+		<Button icon="sap-icon://grid" type="Transparent" />
+	</tnt:ToolHeader>
+		<f:DynamicPage id="dynamicPageId"
+			stickySubheaderProvider="iconTabBar"
+			class="sapUiNoContentPadding"
+			toggleHeaderOnTitleClick="{/titleClickable}">
+			<!-- DynamicPage Title -->
+			<f:title>
+				<f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+					<f:snappedContent>								
+						<Label id="_IDGenLabel2" text="Purchase Order: {POheader>/Ebeln}" />
+					</f:snappedContent>
+				</f:DynamicPageTitle>
+			</f:title>
+			<!-- DynamicPage Header -->
+			<f:header>
+				<f:DynamicPageHeader id="_IDGenDynamicPageHeader1" pinnable="true">
+					<layout:HorizontalLayout id="_IDGenHorizontalLayout1" allowWrapping="true">
+						<layout:VerticalLayout id="_IDGenVerticalLayout1" class="sapUiMediumMarginEnd">
+						<ObjectAttribute id="_IDGenObjectAttribute5" title="Purchase Order" text="{POheader>/Ebeln}"/>
+							<ObjectAttribute id="_IDGenObjectAttribute1" title="Company Code" text="{POheader>/Bukrs}"/>
+							<ObjectAttribute id="_IDGenObjectAttribute2" title="Supplier" text="{POheader>/Lifnr}"/>
+							<ObjectAttribute id="_IDGenObjectAttribute3" title="Currency" text="{POheader>/Waers}"/>
+						</layout:VerticalLayout>
+						<layout:VerticalLayout id="_IDGenVerticalLayout4">
+							<ObjectAttribute id="_IDGenObjectAttribute4" title="Status"/>
+							<ObjectStatus id="_IDGenObjectStatus1" text="Ordered" state="Success" />
+						</layout:VerticalLayout>
+					</layout:HorizontalLayout>
+				</f:DynamicPageHeader>
+			</f:header>
+			<f:content>
+
+				<IconTabBar id="iconTabBar" class="sapUiResponsiveContentPadding">
+
+					<items>
+						<IconTabFilter id="_IDGenIconTabFilter1" text="Goods Receipt">
+							<Table id="idProductsTable"
+								sticky="HeaderToolbar,ColumnHeaders"
+								
+								items="{
+										path: 'GR>/results',
+										sorter: {
+											path: 'Belnr'
+										}
+									}"
+								class="sapUiSmallNegativeMarginBeginEnd"
+								noDataText="GR unavailable for this Order"
+								width="auto" >
+								
+								<headerToolbar>
+									<Toolbar id="_IDGenToolbar1" >
+										<Label id="_IDGenLabel3" text="Goods Receipt Overview"></Label>
+										<ToolbarSpacer/>
+										<Button id="errorId" text="Download" press=".onDownload" enabled="false"
+                               				 icon="sap-icon://download" type="Emphasized" />
+									</Toolbar>
+								</headerToolbar>
+								<columns>
+									<Column id="_IDGenColumn1" width="12em">
+										<Text id="_IDGenText1" text="GR Reference" />
+									</Column>
+									<Column id="_IDGenColumn2" minScreenWidth="Tablet" demandPopin="true">
+										<Text id="_IDGenText2" text="PO line item" />
+									</Column>
+									<Column id="_IDGenColumn3" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+										<Text id="_IDGenText3" text="Quantity" />
+									</Column>
+									<Column id="_IDGenColumn4" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+										<Text id="_IDGenText4" text="Price" />
+									</Column>
+									<Column id="_IDGenColumn5" hAlign="End">
+										<Text id="_IDGenText5" text="Movement Type" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem id="_IDGenColumnListItem1">
+										<cells>
+											<Text id="_IDGenText6" text="{GR>Belnr}" />
+											<Text id="_IDGenText7" text="{GR>Ebelp}" />
+											<Text id="_IDGenText8" text="{GR>Bpmng}" />
+											<Text id="_IDGenText9" text="{GR>Wrbtr} {GR>Waers}" />
+											<Text id="_IDGenText10" text="{GR>Bwart}" />
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+							
+						</IconTabFilter>
+						<IconTabFilter id="_IDGenIconTabFilter2" text="Invoice">
+						
+							<Table id="idProductsTable1"
+								inset="false"
+								sticky="HeaderToolbar,ColumnHeaders"
+								items="{
+										path: 'Invoice>/results',
+										sorter: {
+											path: 'Belnr'
+										}
+									}"
+								class="sapUiSmallNegativeMarginBeginEnd"
+								noDataText="Invoice unavailable for this Order"
+								width="auto">
+								<headerToolbar>
+									<Toolbar id="_IDGenToolbar2">
+										<Label id="_IDGenLabel4" text="Invoice Overview"></Label>
+									</Toolbar>
+								</headerToolbar>
+								<columns>
+									<Column id="_IDGenColumn6" width="12em">
+										<Text id="_IDGenText11" text="Invoice Reference" />
+									</Column>
+									<Column id="_IDGenColumn7" minScreenWidth="Tablet" demandPopin="true">
+										<Text id="_IDGenText12" text="PO line item" />
+									</Column>
+									<Column id="_IDGenColumn8" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+										<Text id="_IDGenText13" text="Quantity" />
+									</Column>
+									<Column id="_IDGenColumn9" hAlign="End">
+										<Text id="_IDGenText14" text="Price" />
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem id="_IDGenColumnListItem2">
+										<cells>
+											<Text id="_IDGenText15" text="{Invoice>Belnr}" />
+											<Text id="_IDGenText16" text="{Invoice>Ebelp}" />
+											<Text id="_IDGenText17" text="{Invoice>Bpmng}" />
+											<Text id="_IDGenText18" text="{Invoice>Wrbtr} {Invoice>Waers}" />
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+							
+						</IconTabFilter>
+					</items>
+				</IconTabBar>
+			</f:content>
+			<!-- DynamicPage Footer -->
+		</f:DynamicPage>
+</mvc:View>
